@@ -53,9 +53,9 @@ task removeGeneratedSource(type: Delete) {
 
 clean.dependsOn removeGeneratedSource
 
-sourceSets.main.java.srcDirs += file("src/generated")
+sourceSets.main.java.srcDirs += file("src/generated/java")
 idea {
   module {
-    generatedSourceDirs += file('src/generated/java/')
+    generatedSourceDirs += file('src/generated/java')
   }
 }
