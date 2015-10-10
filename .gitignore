@@ -408,3 +408,5 @@ tramp
 # cask packages
 .cask/
 
+# Don't ignore the Gradle wrapper jar
+!gradle-wrapper.jar
