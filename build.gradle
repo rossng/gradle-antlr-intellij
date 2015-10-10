@@ -36,7 +36,7 @@ generateGrammarSource {
 generateGrammarSource << {
     copy {
         from "${project.buildDir}/generated-src/main/java/"
-        into "gen/main/java"
+        into "src/generated/java"
     }
 }
 
@@ -48,13 +48,14 @@ compileJava {
 }
 
 task removeGeneratedSource(type: Delete) {
-    delete 'gen'
+    delete 'src/generated/'
 }
 
 clean.dependsOn removeGeneratedSource
 
+sourceSets.main.java.srcDirs += file("src/generated")
 idea {
   module {
-    generatedSourceDirs += file('gen/main/java')
+    generatedSourceDirs += file('src/generated/java/')
   }
 }
