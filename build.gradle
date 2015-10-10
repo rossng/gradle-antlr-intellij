@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 
 version = '1.0-SNAPSHOT'
 def packageName = 'eu.rossng'
@@ -51,3 +52,9 @@ task removeGeneratedSource(type: Delete) {
 }
 
 clean.dependsOn removeGeneratedSource
+
+idea {
+  module {
+    generatedSourceDirs += file('gen/main/java')
+  }
+}
