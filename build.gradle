@@ -1,14 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-
-version = '1.0-SNAPSHOT'
-def packageName = 'eu.rossng'
+apply plugin: 'antlr'
 
 repositories {
     mavenCentral()
 }
-
-apply plugin: 'antlr'
 
 dependencies {
     compile "org.antlr:antlr4-runtime:4.5"
@@ -19,14 +15,14 @@ dependencies {
 // generate a jar that runs the test program
 jar {
     manifest {
-        attributes 'Main-Class' : packageName + '.test.Test'
+        attributes 'Main-Class' : 'eu.rossng.test.Test'
     }
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
 // generate java from the ANTLR g4 files
 generateGrammarSource {
-    arguments = ['-visitor', '-package', packageName]
+    arguments = ['-visitor', '-package', 'eu.rossng']
     outputDirectory = file("${project.buildDir}/generated-src/main/java/")
 }
 
@@ -47,12 +43,13 @@ compileJava {
     source = ['build/generated-src/main/java', 'src/main/java']
 }
 
+// when cleaning, remove the generated sources too
 task removeGeneratedSource(type: Delete) {
     delete 'src/generated/'
 }
-
 clean.dependsOn removeGeneratedSource
 
+// mark the generated source as such for IntelliJ IDEA
 sourceSets.main.java.srcDirs += file("src/generated/java")
 idea {
   module {
